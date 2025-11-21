@@ -91,8 +91,8 @@ const heroStats = [
   },
   {
     label: 'platform',
-    value: 'ios 16+',
-    detail: 'iphone + ipad ready',
+    value: 'ios 26',
+    detail: 'iphone + ipad future builds',
   },
   {
     label: 'love channel',
@@ -135,25 +135,30 @@ export default function Home() {
                 <span aria-hidden>↗</span>
               </a>
             </div>
-            <div className="space-y-3">
-              <div className="inline-flex flex-col items-start gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="relative w-16 h-16 sm:w-20 sm:h-20">
-                    <Image src="/images/2.png" alt="DoodleDuo Logo" fill sizes="80px" className="object-contain" priority />
-                  </div>
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.4em] text-[#ad75ba]">introducing</p>
-                    <p className="text-2xl font-black lowercase text-[#4c2f2c]">doodleduo</p>
-                  </div>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24">
+                  <Image
+                    src="/images/2.png"
+                    alt="DoodleDuo Logo"
+                    fill
+                    sizes="110px"
+                    className="object-contain drop-shadow-lg"
+                    priority
+                  />
                 </div>
-                <p className="text-base lowercase text-[#5d4946]">two tiny hearts, one shared love board</p>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.6em] text-[#ad75ba]">introducing</p>
+                  <p className="text-4xl sm:text-5xl font-black lowercase text-[#4c2f2c]">doodleduo</p>
+                  <p className="text-base sm:text-lg lowercase text-[#5d4946]">live doodles + farm care for two hearts</p>
+                </div>
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black lowercase leading-tight text-[#4c2f2c]">
-                a playful farm for two hearts and one live doodleboard
+                one shared love board that levels up your relationship
               </h1>
               <p className="text-lg text-[#5d4946] lowercase max-w-xl">
-                doodleduo keeps your relationship visible: scribble together in realtime, send love pings, and let a
-                tiny farm grow as your rituals stay warm. join the iOS open beta and watch the farm bloom in real time.
+                scribble together in realtime, drop playful pings, and watch a cozy farm mirror your daily rituals. jump
+                into the iOS open beta and feel your love stay visible.
               </p>
             </div>
             <div className="flex flex-wrap gap-4 pt-2">
