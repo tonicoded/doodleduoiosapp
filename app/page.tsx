@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const TEST_FLIGHT_URL = 'https://testflight.apple.com/join/9H3dkvdb'
 
@@ -394,8 +395,17 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <footer className="pb-10 text-center text-xs text-[#7c5e5a] px-6 lowercase">
-          made with 💗 by doodleduo — keep sketching, keep growing.
+        <footer className="pb-10 text-center text-xs text-[#7c5e5a] px-6 lowercase space-y-2">
+          <div>made with 💗 by doodleduo — keep sketching, keep growing.</div>
+          <div className="flex justify-center gap-4 text-[#ad75ba] font-semibold">
+            <Link href="/privacy" className="hover:underline">
+              privacy policy
+            </Link>
+            <span>•</span>
+            <Link href="/terms" className="hover:underline">
+              terms of service
+            </Link>
+          </div>
         </footer>
       </div>
     </main>
