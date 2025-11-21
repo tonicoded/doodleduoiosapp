@@ -91,8 +91,8 @@ const heroStats = [
   },
   {
     label: 'platform',
-    value: 'ios 17+',
-    detail: 'android build in progress',
+    value: 'ios 16+',
+    detail: 'iphone + ipad ready',
   },
   {
     label: 'love channel',
@@ -103,7 +103,7 @@ const heroStats = [
 
 export default function Home() {
   return (
-    <main className="relative overflow-hidden bg-[#fff9f7] text-[#3a2c2b]">
+    <main className="relative overflow-hidden bg-[#fff9f7] text-[#3a2c2b] pt-4 sm:pt-0">
       <div className="absolute inset-0">
         <div className="absolute inset-0 opacity-70 farm-bg-mobile">
           <Image
@@ -121,7 +121,7 @@ export default function Home() {
       </div>
 
       <div className="relative z-10">
-        <section className="max-w-6xl mx-auto px-6 pt-16 pb-10 lg:pt-24 lg:pb-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
+        <section className="max-w-6xl mx-auto px-6 pt-20 pb-10 sm:pt-24 lg:pt-28 lg:pb-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
           <div className="space-y-6">
             <div className="inline-flex flex-wrap items-center gap-3 text-sm lowercase font-semibold text-[#ad75ba]">
               <span className="px-4 py-1 rounded-full bg-white/80 shadow-sm border border-white/60">open beta</span>
@@ -185,7 +185,7 @@ export default function Home() {
             className="relative flex items-center justify-center py-6"
           >
             <div className="absolute inset-x-6 bottom-0 top-0 rounded-[60px] bg-gradient-to-br from-[#ffe2f1] via-[#f7edff] to-[#eaf1ff] blur-3xl opacity-70" />
-            <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[360px]">
+            <div className="relative mx-auto w-full max-w-[320px] sm:max-w-[360px]">
               <div className="absolute -inset-6 bg-gradient-to-br from-[#fbd9ec]/80 via-[#ffeef6]/70 to-[#f1ebff]/80 rounded-[62px] blur-2xl opacity-80" />
               <div className="relative rounded-[58px] bg-[#0c0713] border-[10px] border-white shadow-[0_30px_80px_rgba(51,17,41,0.35)] p-4">
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3 rounded-full bg-white/30" />
@@ -194,8 +194,12 @@ export default function Home() {
                 <div className="rounded-[32px] overflow-hidden bg-gradient-to-b from-[#1d1428] to-[#120915] aspect-[9/19]">
                   <video
                     src="/videopreview.MOV"
-                    controls
+                    autoPlay
+                    loop
+                    muted
                     playsInline
+                    preload="auto"
+                    controlsList="nodownload noplaybackrate nofullscreen"
                     poster="/images/bg.png"
                     className="w-full h-full object-cover"
                   >
@@ -369,17 +373,9 @@ export default function Home() {
               >
                 open testflight
               </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                href="mailto:hello@doodleduo.app?subject=DoodleDuo%20Beta"
-                className="rounded-3xl px-8 py-4 text-center bg-white border border-[#f3d3df] text-[#e35070] font-semibold lowercase shadow-md"
-              >
-                request a demo video
-              </motion.a>
             </div>
             <p className="mt-6 text-center text-sm text-[#7c5e5a] lowercase">
-              already installed? hop inside the app and share your invite code to bring friends along.
+              already installed? join the farm and share your invite code right inside the app.
             </p>
           </motion.div>
         </section>
