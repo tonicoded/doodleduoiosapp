@@ -135,8 +135,8 @@ export default function Home() {
                 <span aria-hidden>↗</span>
               </a>
             </div>
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 flex-wrap">
+            <div className="space-y-5">
+              <div className="flex items-center gap-5 flex-wrap">
                 <div className="relative w-20 h-20 sm:w-24 sm:h-24">
                   <Image
                     src="/images/2.png"
@@ -147,15 +147,12 @@ export default function Home() {
                     priority
                   />
                 </div>
-                <div>
+                <div className="space-y-1">
                   <p className="text-xs uppercase tracking-[0.6em] text-[#ad75ba]">introducing</p>
-                  <p className="text-4xl sm:text-5xl font-black lowercase text-[#4c2f2c]">doodleduo</p>
-                  <p className="text-base sm:text-lg lowercase text-[#5d4946]">live doodles + farm care for two hearts</p>
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black lowercase text-[#4c2f2c]">doodleduo</h1>
+                  <p className="text-base sm:text-lg lowercase text-[#5d4946]">two hearts, one live doodleboard</p>
                 </div>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black lowercase leading-tight text-[#4c2f2c]">
-                one shared love board that levels up your relationship
-              </h1>
               <p className="text-lg text-[#5d4946] lowercase max-w-xl">
                 scribble together in realtime, drop playful pings, and watch a cozy farm mirror your daily rituals. jump
                 into the iOS open beta and feel your love stay visible.
