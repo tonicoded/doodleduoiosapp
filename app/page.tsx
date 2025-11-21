@@ -85,19 +85,19 @@ const buddyAnimals = [
 
 const heroStats = [
   {
-    label: 'beta builds shipped',
-    value: '42',
-    detail: 'updates since fall',
+    label: 'testflight status',
+    value: 'open beta',
+    detail: 'install + invite instantly',
   },
   {
-    label: 'live doodles / day',
-    value: '24',
-    detail: 'average between couples',
+    label: 'platform',
+    value: 'ios 17+',
+    detail: 'android build in progress',
   },
   {
-    label: 'farm mood',
-    value: 'super cozy',
-    detail: '🌱 gently thriving',
+    label: 'love channel',
+    value: 'doodles + pings',
+    detail: 'tiny rituals all day',
   },
 ]
 
@@ -185,7 +185,7 @@ export default function Home() {
             className="relative flex items-center justify-center py-6"
           >
             <div className="absolute inset-x-6 bottom-0 top-0 rounded-[60px] bg-gradient-to-br from-[#ffe2f1] via-[#f7edff] to-[#eaf1ff] blur-3xl opacity-70" />
-            <div className="relative mx-auto w-full max-w-[420px] sm:max-w-[480px]">
+            <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[360px]">
               <div className="absolute -inset-6 bg-gradient-to-br from-[#fbd9ec]/80 via-[#ffeef6]/70 to-[#f1ebff]/80 rounded-[62px] blur-2xl opacity-80" />
               <div className="relative rounded-[58px] bg-[#0c0713] border-[10px] border-white shadow-[0_30px_80px_rgba(51,17,41,0.35)] p-4">
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3 rounded-full bg-white/30" />
