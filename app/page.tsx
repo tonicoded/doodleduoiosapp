@@ -1,9 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { joinWaitlist, getWaitlistCount } from '@/lib/supabase'
 
 const TEST_FLIGHT_URL = 'https://testflight.apple.com/join/9H3dkvdb'
 
@@ -85,63 +83,25 @@ const buddyAnimals = [
   },
 ]
 
+const heroStats = [
+  {
+    label: 'beta builds shipped',
+    value: '42',
+    detail: 'updates since fall',
+  },
+  {
+    label: 'live doodles / day',
+    value: '24',
+    detail: 'average between couples',
+  },
+  {
+    label: 'farm mood',
+    value: 'super cozy',
+    detail: '🌱 gently thriving',
+  },
+]
+
 export default function Home() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [waitlistCount, setWaitlistCount] = useState<number | null>(null)
-  const waitlistRef = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    getWaitlistCount()
-      .then((count) => setWaitlistCount(count))
-      .catch(() => setWaitlistCount(null))
-  }, [])
-
-  const scrollToWaitlist = () => {
-    waitlistRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('loading')
-    setErrorMessage('')
-
-    try {
-      await joinWaitlist({
-        email,
-        referral_source: document.referrer || 'direct',
-        user_agent: navigator.userAgent,
-      })
-      setStatus('success')
-      setEmail('')
-      const newCount = await getWaitlistCount()
-      setWaitlistCount(newCount)
-    } catch (error: unknown) {
-      setStatus('error')
-      const message = error instanceof Error ? error.message : 'Something went wrong. Please try again.'
-      setErrorMessage(message)
-    }
-  }
-
-  const heroStats = [
-    {
-      label: 'ready for beta',
-      value: waitlistCount !== null && waitlistCount > 0 ? waitlistCount.toLocaleString() : 'new friends',
-      detail: 'sweethearts lined up',
-    },
-    {
-      label: 'live doodles / day',
-      value: '24',
-      detail: 'average between couples',
-    },
-    {
-      label: 'farm mood',
-      value: 'super cozy',
-      detail: '🌱 gently thriving',
-    },
-  ]
-
   return (
     <main className="relative overflow-hidden bg-[#fff9f7] text-[#3a2c2b]">
       <div className="absolute inset-0">
@@ -181,18 +141,18 @@ export default function Home() {
               </h1>
               <p className="text-lg text-[#5d4946] lowercase max-w-xl">
                 doodleduo keeps your relationship visible: scribble together in realtime, send love pings, and let a
-                tiny farm grow as your rituals stay warm. join the iOS open beta or hop on the waitlist for the next wave.
+                tiny farm grow as your rituals stay warm. join the iOS open beta and watch the farm bloom in real time.
               </p>
             </div>
             <div className="flex flex-wrap gap-4 pt-2">
-              <motion.button
+              <motion.a
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={scrollToWaitlist}
+                href="#download"
                 className="px-6 py-3 rounded-full bg-gradient-to-r from-[#e35070] to-[#ad75ba] text-white font-semibold lowercase shadow-lg hover:shadow-xl"
               >
-                reserve your spot
-              </motion.button>
+                see how to join
+              </motion.a>
               <motion.a
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
@@ -383,7 +343,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section ref={waitlistRef} id="waitlist" className="max-w-4xl mx-auto px-6 pb-20">
+        <section id="download" className="max-w-4xl mx-auto px-6 pb-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -392,93 +352,37 @@ export default function Home() {
             className="rounded-[36px] bg-white/95 border border-white/70 shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-6 sm:p-10"
           >
             <div className="space-y-3 text-center">
-              <p className="text-sm uppercase tracking-[0.4em] text-[#ad75ba]">waitlist + beta updates</p>
-              <h2 className="text-3xl font-black lowercase text-[#4c2f2c]">
-                be first for weekly TestFlight drops + android news
-              </h2>
+              <p className="text-sm uppercase tracking-[0.4em] text-[#ad75ba]">download + share</p>
+              <h2 className="text-3xl font-black lowercase text-[#4c2f2c]">get doodleduo on your iphone today</h2>
               <p className="text-base text-[#5d4946] lowercase max-w-2xl mx-auto">
-                ios beta invites go out each week. android + fresh features arrive via the list first. we just need your
-                email—no spam, only farm love.
+                install from TestFlight, invite your partner, and unlock the cozy farm in minutes. android + widget-only
+                builds are underway—follow us on socials for drops.
               </p>
             </div>
-            <div className="mt-8">
-              <AnimatePresence mode="wait">
-                {status === 'success' ? (
-                  <motion.div
-                    key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="rounded-3xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 px-6 py-8 text-center"
-                  >
-                    <div className="text-4xl mb-3">🎉</div>
-                    <p className="text-xl font-semibold text-green-800 lowercase">you&apos;re on the list!</p>
-                    <p className="text-green-700 lowercase">we&apos;ll send the next batch of invites soon.</p>
-                  </motion.div>
-                ) : (
-                  <motion.form
-                    key="form"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    onSubmit={handleSubmit}
-                    className="flex flex-col gap-4 sm:flex-row"
-                  >
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      placeholder="email for invites"
-                      required
-                      disabled={status === 'loading'}
-                      className="flex-1 rounded-3xl border border-[#f3d3df] bg-white/90 px-6 py-4 text-[#4c2f2c] placeholder:text-[#a48d8a] focus:outline-none focus:ring-2 focus:ring-[#e35070] disabled:opacity-60 lowercase"
-                    />
-                    <motion.button
-                      type="submit"
-                      disabled={status === 'loading'}
-                      whileHover={{ scale: status === 'loading' ? 1 : 1.02 }}
-                      whileTap={{ scale: status === 'loading' ? 1 : 0.98 }}
-                      className="rounded-3xl bg-gradient-to-r from-[#e35070] to-[#ad75ba] px-8 py-4 text-white font-semibold lowercase shadow-lg disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-                    >
-                      {status === 'loading' ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>joining…</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>join waitlist</span>
-                          <span aria-hidden>💗</span>
-                        </>
-                      )}
-                    </motion.button>
-                  </motion.form>
-                )}
-              </AnimatePresence>
-              {status === 'error' && (
-                <motion.p
-                  initial={{ opacity: 0, y: -6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-3 text-center text-sm text-red-600 lowercase"
-                >
-                  {errorMessage}
-                </motion.p>
-              )}
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+              <motion.a
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                href={TEST_FLIGHT_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-3xl bg-gradient-to-r from-[#e35070] to-[#ad75ba] px-8 py-4 text-center text-white font-semibold lowercase shadow-lg"
+              >
+                open testflight
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                href="mailto:hello@doodleduo.app?subject=DoodleDuo%20Beta"
+                className="rounded-3xl px-8 py-4 text-center bg-white border border-[#f3d3df] text-[#e35070] font-semibold lowercase shadow-md"
+              >
+                request a demo video
+              </motion.a>
             </div>
+            <p className="mt-6 text-center text-sm text-[#7c5e5a] lowercase">
+              already installed? hop inside the app and share your invite code to bring friends along.
+            </p>
           </motion.div>
-          {waitlistCount !== null && waitlistCount > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="mt-6 flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#e35070]/15 to-[#ad75ba]/15 px-6 py-3 text-sm text-[#4c2f2c] border border-white/60"
-            >
-              <span className="text-lg font-black text-[#e35070]">{waitlistCount}</span>
-              <span className="lowercase">
-                {waitlistCount === 1 ? 'person is' : 'people are'} already watering the beta farm.
-              </span>
-            </motion.div>
-          )}
         </section>
 
         <footer className="pb-10 text-center text-xs text-[#7c5e5a] px-6 lowercase">
