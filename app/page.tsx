@@ -275,23 +275,32 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7 }}
-            className="rounded-[32px] bg-white/95 border border-white/70 shadow-[0_25px_60px_rgba(0,0,0,0.12)] overflow-hidden"
+            className="relative flex items-center justify-center py-8"
           >
-            <div className="relative aspect-[4/5] bg-gradient-to-br from-[#fff5f9] via-white to-[#f2f0ff]">
-              <video
-                src="/videopreview.MOV"
-                controls
-                playsInline
-                poster="/images/bg.png"
-                className="w-full h-full object-cover"
-              >
-                your browser does not support the video tag.
-              </video>
-              <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/80 backdrop-blur px-5 py-4 flex items-center justify-between">
+            <div className="absolute inset-x-6 bottom-4 top-4 rounded-[52px] bg-gradient-to-br from-[#ffe2f1] via-[#f7edff] to-[#eaf1ff] blur-3xl opacity-70" />
+            <div className="relative mx-auto w-full max-w-[420px] sm:max-w-[460px]">
+              <div className="absolute -inset-5 bg-gradient-to-br from-[#fbd9ec]/80 via-[#ffeef6]/70 to-[#f1ebff]/80 rounded-[58px] blur-2xl opacity-80" />
+              <div className="relative rounded-[52px] bg-[#0c0713] border-[10px] border-white shadow-[0_35px_90px_rgba(51,17,41,0.35)] p-4">
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3 rounded-full bg-white/30" />
+                <div className="absolute top-10 right-1/2 translate-x-24 w-2 h-10 rounded-full bg-white/20" />
+                <div className="absolute top-20 right-1/2 translate-x-24 w-2 h-14 rounded-full bg-white/20" />
+                <div className="rounded-[32px] overflow-hidden bg-gradient-to-b from-[#1d1428] to-[#120915] aspect-[9/19]">
+                  <video
+                    src="/videopreview.MOV"
+                    controls
+                    playsInline
+                    poster="/images/bg.png"
+                    className="w-full h-full object-cover"
+                  >
+                    your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+              <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white/80 border border-white/60 shadow-lg px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-xs uppercase tracking-wide text-[#ad75ba]">live board preview</p>
+                  <p className="text-xs uppercase tracking-[0.4em] text-[#ad75ba]">live board preview</p>
                   <p className="text-sm text-[#4c2f2c] lowercase">
-                    doodles, pings, and streak boosts update instantly.
+                    capture doodles, pings, and streak boosts inside a dreamy glass phone.
                   </p>
                 </div>
                 <span className="text-2xl">🎥</span>
