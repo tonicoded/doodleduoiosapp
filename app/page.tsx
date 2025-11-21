@@ -1,20 +1,106 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { joinWaitlist, getWaitlistCount } from '@/lib/supabase'
+
+const TEST_FLIGHT_URL = 'https://testflight.apple.com/join/9H3dkvdb'
+
+const featureHighlights = [
+  {
+    icon: '🎨',
+    title: 'Realtime doodles',
+    description: 'Sketch together from any timezone and watch the canvas update stroke-for-stroke.',
+  },
+  {
+    icon: '🌾',
+    title: 'Shared cozy farm',
+    description: 'Adopt animals, decorate your vibe, and grow crops with every heart you earn.',
+  },
+  {
+    icon: '✨',
+    title: 'Widgets + live hearts',
+    description: 'Lock Screen widgets pulse with your partner’s doodles, pings, and moods.',
+  },
+  {
+    icon: '🔥',
+    title: 'Hardcore streaks',
+    description: 'Daily nudges, shared goals, and gentle dares keep the love loop warm.',
+  },
+  {
+    icon: '💌',
+    title: 'Love pings',
+    description: 'Tap to send voice kisses, animated stickers, or super-fast “thinking of yous”.',
+  },
+  {
+    icon: '📅',
+    title: 'Guided prompts',
+    description: 'Never run out of things to draw—prompts arrive throughout the day.',
+  },
+]
+
+const ritualMoments = [
+  {
+    icon: '🌤️',
+    title: 'Wake up scribble',
+    detail: 'Leave a tiny doodle before your partner even turns off their alarm.',
+  },
+  {
+    icon: '🍱',
+    title: 'Lunch love ping',
+    detail: 'Send a dare, reward, or quick “thinking of you” audio bubble.',
+  },
+  {
+    icon: '🌙',
+    title: 'Night farm check-in',
+    detail: 'Tuck in the animals, water the seedlings, and log today’s best moment.',
+  },
+]
+
+const buddyAnimals = [
+  {
+    name: 'Chickpea',
+    description: 'A mischievous chicken who reminds you when the streak is wobbling.',
+    image: '/images/chicken.png',
+    accent: 'from-[#fff5f0] to-[#ffe4ed]',
+  },
+  {
+    name: 'Mallow',
+    description: 'The softest pig, obsessed with confetti whenever you finish a dare.',
+    image: '/images/pig.png',
+    accent: 'from-[#fff7fb] to-[#f5e9ff]',
+  },
+  {
+    name: 'Luna',
+    description: 'A sheep that delivers calming prompts when life feels loud.',
+    image: '/images/sheep.png',
+    accent: 'from-[#f4fbff] to-[#eaf3ff]',
+  },
+  {
+    name: 'Bolt',
+    description: 'A loyal horse who speeds up farm upgrades during streak storms.',
+    image: '/images/horse.png',
+    accent: 'from-[#fffbea] to-[#ffeecb]',
+  },
+]
 
 export default function Home() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [waitlistCount, setWaitlistCount] = useState<number | null>(null)
+  const waitlistRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    // Load waitlist count on mount
-    getWaitlistCount().then(count => setWaitlistCount(count)).catch(() => setWaitlistCount(null))
+    getWaitlistCount()
+      .then((count) => setWaitlistCount(count))
+      .catch(() => setWaitlistCount(null))
   }, [])
+
+  const scrollToWaitlist = () => {
+    waitlistRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,340 +115,387 @@ export default function Home() {
       })
       setStatus('success')
       setEmail('')
-      // Refresh waitlist count
       const newCount = await getWaitlistCount()
       setWaitlistCount(newCount)
-    } catch (error: any) {
+    } catch (error: unknown) {
       setStatus('error')
-      setErrorMessage(error.message || 'Something went wrong. Please try again.')
+      const message = error instanceof Error ? error.message : 'Something went wrong. Please try again.'
+      setErrorMessage(message)
     }
   }
 
+  const heroStats = [
+    {
+      label: 'ready for beta',
+      value: waitlistCount !== null && waitlistCount > 0 ? waitlistCount.toLocaleString() : 'new friends',
+      detail: 'sweethearts lined up',
+    },
+    {
+      label: 'live doodles / day',
+      value: '24',
+      detail: 'average between couples',
+    },
+    {
+      label: 'farm mood',
+      value: 'super cozy',
+      detail: '🌱 gently thriving',
+    },
+  ]
+
   return (
-    <main className="min-h-screen relative overflow-hidden">
-      {/* Farm background with overlay */}
+    <main className="relative overflow-hidden bg-[#fff9f7] text-[#3a2c2b]">
       <div className="absolute inset-0">
-        <div className="absolute inset-0 w-full h-full farm-bg-mobile">
+        <div className="absolute inset-0 opacity-70 farm-bg-mobile">
           <Image
             src="/images/bg.png"
-            alt="Cozy Farm Background"
+            alt="Soft watercolor farm background"
             fill
-            className="object-cover"
             priority
-            quality={100}
+            className="object-cover"
+            sizes="100vw"
           />
         </div>
-        {/* Gradient overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
-
-        {/* Animated glow effects - hidden on mobile for performance */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none mobile-hide-glow">
-          <motion.div
-            className="absolute w-[420px] h-[420px] rounded-full bg-[#ffd4e5]/20 blur-[120px] hw-accelerate"
-            animate={{
-              x: [-80, -40],
-              y: [-260, -260],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut',
-            }}
-          />
-          <motion.div
-            className="absolute w-[360px] h-[360px] rounded-full bg-[#e8d4ff]/15 blur-[140px] right-0 hw-accelerate"
-            animate={{
-              x: [120, 80],
-              y: [240, 240],
-            }}
-            transition={{
-              duration: 3.6,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              ease: 'easeInOut',
-            }}
-          />
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fdf4f5]/90 via-[#fff9f7]/95 to-white" />
+        <div className="absolute -top-32 -right-10 w-[420px] h-[420px] rounded-full bg-[#ffd4e5]/40 blur-[120px]" />
+        <div className="absolute -bottom-20 -left-12 w-[360px] h-[360px] rounded-full bg-[#e8d4ff]/40 blur-[150px]" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-6 py-16">
-        <div className="w-full max-w-[520px] space-y-6">
-          {/* Hero Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="relative rounded-[44px] bg-gradient-to-br from-white/95 via-[#fef5f8]/95 to-[#f5f0ff]/95 backdrop-blur-xl mobile-optimize-blur p-8 md:p-12 shadow-[0_20px_40px_rgba(0,0,0,0.3)] mobile-simple-shadow border border-white/70 hw-accelerate"
-          >
-            {/* Animated hearts overlay */}
-            <div className="absolute inset-0 overflow-hidden rounded-[44px] pointer-events-none">
-              {[...Array(5)].map((_, i) => (
-                <FloatingHeart key={i} delay={i * 0.2} index={i} />
+      <div className="relative z-10">
+        <section className="max-w-6xl mx-auto px-6 pt-16 pb-10 lg:pt-24 lg:pb-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
+          <div className="space-y-6">
+            <div className="inline-flex flex-wrap items-center gap-3 text-sm lowercase font-semibold text-[#ad75ba]">
+              <span className="px-4 py-1 rounded-full bg-white/80 shadow-sm border border-white/60">open beta</span>
+              <a
+                href={TEST_FLIGHT_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-[#e35070] hover:underline"
+              >
+                join on testflight
+                <span aria-hidden>↗</span>
+              </a>
+            </div>
+            <div className="space-y-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black lowercase leading-tight text-[#4c2f2c]">
+                a playful farm for two hearts and one live doodleboard
+              </h1>
+              <p className="text-lg text-[#5d4946] lowercase max-w-xl">
+                doodleduo keeps your relationship visible: scribble together in realtime, send love pings, and let a
+                tiny farm grow as your rituals stay warm. join the iOS open beta or hop on the waitlist for the next wave.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-4 pt-2">
+              <motion.button
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={scrollToWaitlist}
+                className="px-6 py-3 rounded-full bg-gradient-to-r from-[#e35070] to-[#ad75ba] text-white font-semibold lowercase shadow-lg hover:shadow-xl"
+              >
+                reserve your spot
+              </motion.button>
+              <motion.a
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                href={TEST_FLIGHT_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="px-6 py-3 rounded-full bg-white/80 border border-white/60 text-[#e35070] font-semibold lowercase shadow-md hover:bg-white"
+              >
+                download via testflight
+              </motion.a>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6">
+              {heroStats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl border border-white/70 bg-white/80 px-4 py-3 shadow-sm backdrop-blur"
+                >
+                  <p className="text-2xl font-black text-[#653f3c]">{stat.value}</p>
+                  <p className="text-xs uppercase tracking-wide text-[#ad75ba]">{stat.label}</p>
+                  <p className="text-xs text-[#7c5e5a]">{stat.detail}</p>
+                </div>
               ))}
             </div>
+          </div>
 
-            {/* Glow effect behind logo */}
+          <div className="relative">
             <motion.div
-              className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px] h-[210px] rounded-full bg-white/40 blur-[26px]"
-              animate={{ scale: [0.97, 1.05, 0.97] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-            />
-
-            <div className="relative flex flex-col items-center text-center space-y-4">
-              {/* Logo */}
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="relative w-[180px] h-[180px] md:w-[210px] md:h-[210px]"
-              >
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="relative rounded-[36px] bg-white/90 border border-white/70 shadow-[0_25px_80px_rgba(0,0,0,0.15)] p-6 md:p-8 overflow-hidden"
+            >
+              <div className="absolute inset-0 pointer-events-none">
+                {[...Array(5)].map((_, index) => (
+                  <FloatingHeart key={index} index={index} delay={index * 0.25} />
+                ))}
+              </div>
+              <div className="relative w-full h-[320px] sm:h-[360px]">
                 <Image
                   src="/images/2.png"
-                  alt="DoodleDuo Logo"
+                  alt="DoodleDuo board preview"
                   fill
-                  className="object-contain drop-shadow-[0_10px_20px_rgba(99,64,59,0.6)]"
                   priority
+                  sizes="(min-width: 1024px) 420px, 80vw"
+                  className="object-contain drop-shadow-[0_20px_40px_rgba(99,64,59,0.35)]"
                 />
-              </motion.div>
+              </div>
+              <div className="relative mt-6 space-y-3">
+                <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-gradient-to-r from-[#ffeaf1] to-[#f3ecff]">
+                  <div>
+                    <p className="text-sm text-[#7c5e5a]">tonight&apos;s dare</p>
+                    <p className="font-semibold lowercase text-[#4c2f2c]">draw your dream mini-date</p>
+                  </div>
+                  <span className="text-2xl">💗</span>
+                </div>
+                <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-gradient-to-r from-[#fff7ed] to-[#fef0ff]">
+                  <div>
+                    <p className="text-xs uppercase tracking-wide text-[#ad75ba]">streak</p>
+                    <p className="text-lg font-black text-[#653f3c]">27 days</p>
+                  </div>
+                  <p className="text-sm text-[#7c5e5a]">farm growth +12%</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
-              {/* Title */}
-              <motion.h1
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="text-4xl md:text-5xl font-black lowercase text-[#633e3b] tracking-tight"
-              >
-                doodleduo
-              </motion.h1>
-
-              {/* Subtitle */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-xl md:text-2xl font-semibold text-gray-600 lowercase"
-              >
-                two tiny hearts, one shared farm
-              </motion.p>
-
-              {/* Beta badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6 }}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#e35070] to-[#ad75ba] text-white font-bold text-sm shadow-lg"
-              >
-                <motion.span
-                  animate={{
-                    scale: [1, 1.3, 1],
-                    opacity: [1, 0.6, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                  className="w-2 h-2 rounded-full bg-white"
-                />
-                beta starts soon
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.5 }}
-            className="text-center space-y-3 px-4 py-6 rounded-3xl bg-white/90 backdrop-blur-md mobile-optimize-blur shadow-lg mobile-simple-shadow border border-white/60 hw-accelerate"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold lowercase text-gray-900">
-              live cozy doodles for couples
+        <section className="max-w-6xl mx-auto px-6 py-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <p className="text-sm uppercase tracking-[0.3em] text-[#ad75ba]">made for modern couples</p>
+            <h2 className="text-3xl sm:text-4xl font-black lowercase text-[#4c2f2c]">
+              the farm grows when you leave love in tiny ways
             </h2>
-            <p className="text-base md:text-lg text-gray-700 lowercase leading-relaxed">
-              sketch love notes, leave tiny dares, toss love pings, and level up a gentle farm that mirrors your vibe.
+            <p className="text-base text-[#5d4946] lowercase">
+              doodleduo is equal parts journaling, game, and shared sanctuary. you can draw, ping, dare, and nurture one
+              living home screen together.
             </p>
-          </motion.div>
-
-          {/* Feature chips */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-3"
-          >
-            {[
-              { label: 'realtime board', icon: '✏️' },
-              { label: 'cozy farm', icon: '🌱' },
-              { label: 'widget hearts', icon: '✨' },
-              { label: 'hardcore streak', icon: '🔥' },
-              { label: 'daily prompts', icon: '📅' },
-              { label: 'love pings', icon: '💗' },
-            ].map((feature, i) => (
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {featureHighlights.map((feature) => (
               <motion.div
-                key={feature.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.9 + i * 0.05 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/85 backdrop-blur-md mobile-optimize-blur border border-white/50 text-sm font-medium text-gray-800 shadow-lg mobile-simple-shadow hover:shadow-xl hover:bg-white/95 transition-all cursor-default hw-accelerate"
+                key={feature.title}
+                whileHover={{ y: -4 }}
+                className="rounded-3xl border border-white/70 bg-white/90 p-6 shadow-sm backdrop-blur"
               >
-                <span className="text-lg">{feature.icon}</span>
-                <span className="lowercase">{feature.label}</span>
+                <div className="text-3xl">{feature.icon}</div>
+                <h3 className="mt-4 text-xl font-semibold lowercase text-[#4c2f2c]">{feature.title}</h3>
+                <p className="mt-2 text-sm text-[#5d4946]">{feature.description}</p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
+        </section>
 
-          {/* Waitlist form */}
+        <section className="max-w-6xl mx-auto px-6 py-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] items-center">
+          <div className="space-y-4">
+            <p className="text-sm uppercase tracking-[0.3em] text-[#ad75ba]">daily rhythm</p>
+            <h2 className="text-3xl font-black lowercase text-[#4c2f2c]">built for rituals, not doomscrolling</h2>
+            <p className="text-base text-[#5d4946] lowercase">
+              doodleduo slots into the edges of your day. a few minutes in the morning, a quick ping between meetings,
+              and a tuck-in session at night is all it takes to keep the farm glowing.
+            </p>
+            <div className="space-y-4">
+              {ritualMoments.map((moment) => (
+                <div
+                  key={moment.title}
+                  className="flex items-start gap-4 rounded-3xl border border-white/70 bg-white/80 px-5 py-4 shadow-sm"
+                >
+                  <span className="text-3xl">{moment.icon}</span>
+                  <div>
+                    <h3 className="font-semibold lowercase text-[#4c2f2c]">{moment.title}</h3>
+                    <p className="text-sm text-[#5d4946]">{moment.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.5 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7 }}
+            className="rounded-[32px] bg-white/95 border border-white/70 shadow-[0_25px_60px_rgba(0,0,0,0.12)] overflow-hidden"
           >
-            <AnimatePresence mode="wait">
-              {status === 'success' ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="p-6 rounded-3xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 text-center"
-                >
-                  <div className="text-4xl mb-3">🎉</div>
-                  <h3 className="text-xl font-bold text-green-800 mb-2 lowercase">
-                    you&apos;re on the list!
-                  </h3>
-                  <p className="text-green-700 lowercase">
-                    we&apos;ll notify you when beta launches
+            <div className="relative aspect-[4/5] bg-gradient-to-br from-[#fff5f9] via-white to-[#f2f0ff]">
+              <video
+                src="/videopreview.MOV"
+                controls
+                playsInline
+                poster="/images/bg.png"
+                className="w-full h-full object-cover"
+              >
+                your browser does not support the video tag.
+              </video>
+              <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/80 backdrop-blur px-5 py-4 flex items-center justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-wide text-[#ad75ba]">live board preview</p>
+                  <p className="text-sm text-[#4c2f2c] lowercase">
+                    doodles, pings, and streak boosts update instantly.
                   </p>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="form"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onSubmit={handleSubmit}
-                  className="space-y-4"
+                </div>
+                <span className="text-2xl">🎥</span>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        <section className="max-w-6xl mx-auto px-6 py-12">
+          <div className="rounded-[40px] bg-gradient-to-br from-[#fde4ef] via-[#fef4f9] to-[#f2ecff] p-8 md:p-10 border border-white/60 shadow-inner">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-xl space-y-3">
+                <p className="text-sm uppercase tracking-[0.4em] text-[#ad75ba]">farm mascots</p>
+                <h2 className="text-3xl font-black lowercase text-[#4c2f2c]">these buddies keep you honest</h2>
+                <p className="text-base text-[#5d4946] lowercase">
+                  unlock new companions as your farm levels up. they each bring boosts, prompts, or little reminders so
+                  you never ghost each other.
+                </p>
+              </div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="self-start px-6 py-3 rounded-full bg-white/90 border border-white/70 shadow-md text-sm font-semibold lowercase text-[#653f3c]"
+              >
+                love grows with streaks 🔥
+              </motion.div>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {buddyAnimals.map((buddy) => (
+                <div
+                  key={buddy.name}
+                  className={`flex items-center gap-4 rounded-3xl bg-gradient-to-r ${buddy.accent} border border-white/70 px-5 py-4`}
                 >
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="relative w-20 h-20 shrink-0">
+                    <Image
+                      src={buddy.image}
+                      alt={buddy.name}
+                      fill
+                      sizes="80px"
+                      className="object-contain drop-shadow-lg"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-lg lowercase text-[#4c2f2c]">{buddy.name}</p>
+                    <p className="text-sm text-[#5d4946]">{buddy.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section ref={waitlistRef} id="waitlist" className="max-w-4xl mx-auto px-6 pb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6 }}
+            className="rounded-[36px] bg-white/95 border border-white/70 shadow-[0_20px_50px_rgba(0,0,0,0.08)] p-6 sm:p-10"
+          >
+            <div className="space-y-3 text-center">
+              <p className="text-sm uppercase tracking-[0.4em] text-[#ad75ba]">waitlist + beta updates</p>
+              <h2 className="text-3xl font-black lowercase text-[#4c2f2c]">
+                be first for weekly TestFlight drops + android news
+              </h2>
+              <p className="text-base text-[#5d4946] lowercase max-w-2xl mx-auto">
+                ios beta invites go out each week. android + fresh features arrive via the list first. we just need your
+                email—no spam, only farm love.
+              </p>
+            </div>
+            <div className="mt-8">
+              <AnimatePresence mode="wait">
+                {status === 'success' ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="rounded-3xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 px-6 py-8 text-center"
+                  >
+                    <div className="text-4xl mb-3">🎉</div>
+                    <p className="text-xl font-semibold text-green-800 lowercase">you&apos;re on the list!</p>
+                    <p className="text-green-700 lowercase">we&apos;ll send the next batch of invites soon.</p>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    onSubmit={handleSubmit}
+                    className="flex flex-col gap-4 sm:flex-row"
+                  >
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="your email"
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="email for invites"
                       required
                       disabled={status === 'loading'}
-                      className="flex-1 px-6 py-4 rounded-3xl bg-white/80 backdrop-blur-sm border border-white/60 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#e35070] focus:border-transparent shadow-sm lowercase disabled:opacity-50"
+                      className="flex-1 rounded-3xl border border-[#f3d3df] bg-white/90 px-6 py-4 text-[#4c2f2c] placeholder:text-[#a48d8a] focus:outline-none focus:ring-2 focus:ring-[#e35070] disabled:opacity-60 lowercase"
                     />
                     <motion.button
                       type="submit"
                       disabled={status === 'loading'}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="px-8 py-4 rounded-3xl bg-gradient-to-r from[#e35070] to-[#ad75ba] text-white font-bold shadow-lg hover:shadow-xl transition-shadow disabled:opacity-50 disabled:cursor-not-allowed lowercase flex items-center justify-center gap-2"
+                      whileHover={{ scale: status === 'loading' ? 1 : 1.02 }}
+                      whileTap={{ scale: status === 'loading' ? 1 : 0.98 }}
+                      className="rounded-3xl bg-gradient-to-r from-[#e35070] to-[#ad75ba] px-8 py-4 text-white font-semibold lowercase shadow-lg disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                     >
                       {status === 'loading' ? (
                         <>
                           <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>joining...</span>
+                          <span>joining…</span>
                         </>
                       ) : (
                         <>
                           <span>join waitlist</span>
-                          <span className="text-xl">💗</span>
+                          <span aria-hidden>💗</span>
                         </>
                       )}
                     </motion.button>
-                  </div>
-
-                  {status === 'error' && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-red-600 text-sm text-center lowercase"
-                    >
-                      {errorMessage}
-                    </motion.p>
-                  )}
-                </motion.form>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+              {status === 'error' && (
+                <motion.p
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-3 text-center text-sm text-red-600 lowercase"
+                >
+                  {errorMessage}
+                </motion.p>
               )}
-            </AnimatePresence>
+            </div>
           </motion.div>
-
-          {/* Animal showcase */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.5 }}
-            className="flex justify-center items-center gap-4 py-4"
-          >
-            {['chicken', 'pig', 'sheep', 'horse'].map((animal, i) => (
-              <motion.div
-                key={animal}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 + i * 0.1 }}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                className="relative w-16 h-16 md:w-20 md:h-20"
-              >
-                <Image
-                  src={`/images/${animal}.png`}
-                  alt={animal}
-                  fill
-                  className="object-contain drop-shadow-lg"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Waitlist Counter */}
-          {waitlistCount !== null and waitlistCount > 0 and (
+          {waitlistCount !== null && waitlistCount > 0 && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.3, duration: 0.5 }}
-              className="flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#e35070]/20 to[#ad75ba]/20 backdrop-blur-md border border-white/40"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mt-6 flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#e35070]/15 to-[#ad75ba]/15 px-6 py-3 text-sm text-[#4c2f2c] border border-white/60"
             >
-              <motion.span
-                key={waitlistCount}
-                initial={{ scale: 1.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="text-2xl font-black text-white drop-shadow-lg"
-              >
-                {waitlistCount}
-              </motion.span>
-              <span className="text-sm font-medium text-white/90 lowercase">
-                {waitlistCount === 1 ? 'person' : 'people'} ready for beta 🎉
+              <span className="text-lg font-black text-[#e35070]">{waitlistCount}</span>
+              <span className="lowercase">
+                {waitlistCount === 1 ? 'person is' : 'people are'} already watering the beta farm.
               </span>
             </motion.div>
           )}
+        </section>
 
-          {/* Footer text */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4 }}
-            className="text-center text-sm text-white/80 drop-shadow-md lowercase"
-          >
-            made with 💗 for couples who doodle together
-          </motion.p>
-        </div>
+        <footer className="pb-10 text-center text-xs text-[#7c5e5a] px-6 lowercase">
+          made with 💗 by doodleduo — keep sketching, keep growing.
+        </footer>
       </div>
     </main>
   )
 }
 
-// Floating heart animation component
 function FloatingHeart({ delay, index }: { delay: number; index: number }) {
   const colors = [
-    'rgb(248, 158, 186)', // pink
-    'rgb(222, 125, 200)', // pink-purple
-    'rgb(194, 135, 219)', // purple
-    'rgb(214, 168, 239)', // light purple
-    'rgb(239, 175, 208)', // light pink
+    'rgb(248, 158, 186)',
+    'rgb(222, 125, 200)',
+    'rgb(194, 135, 219)',
+    'rgb(214, 168, 239)',
+    'rgb(239, 175, 208)',
   ]
 
   const startX = [20, 45, 65, 85, 35][index] || 50
@@ -391,13 +524,7 @@ function FloatingHeart({ delay, index }: { delay: number; index: number }) {
       }}
       style={{ left: 0, bottom: 0 }}
     >
-      <svg
-        width="20"
-        height="18"
-        viewBox="0 0 20 18"
-        fill={colors[index % colors.length]}
-        className="drop-shadow-sm opacity-75 blur-[0.4px]"
-      >
+      <svg width="20" height="18" viewBox="0 0 20 18" fill={colors[index % colors.length]} className="opacity-75">
         <path d="M10 17.5C10 17.5 1 12 1 5.5C1 3.5 2.5 2 4.5 2C6.5 2 8.5 3.5 10 5.5C11.5 3.5 13.5 2 15.5 2C17.5 2 19 3.5 19 5.5C19 12 10 17.5 10 17.5Z" />
       </svg>
     </motion.div>
