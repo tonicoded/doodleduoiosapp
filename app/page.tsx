@@ -178,46 +178,39 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="relative rounded-[36px] bg-white/90 border border-white/70 shadow-[0_25px_80px_rgba(0,0,0,0.15)] p-6 md:p-8 overflow-hidden"
-            >
-              <div className="absolute inset-0 pointer-events-none">
-                {[...Array(5)].map((_, index) => (
-                  <FloatingHeart key={index} index={index} delay={index * 0.25} />
-                ))}
-              </div>
-              <div className="relative w-full h-[320px] sm:h-[360px]">
-                <Image
-                  src="/images/2.png"
-                  alt="DoodleDuo board preview"
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 420px, 80vw"
-                  className="object-contain drop-shadow-[0_20px_40px_rgba(99,64,59,0.35)]"
-                />
-              </div>
-              <div className="relative mt-6 space-y-3">
-                <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-gradient-to-r from-[#ffeaf1] to-[#f3ecff]">
-                  <div>
-                    <p className="text-sm text-[#7c5e5a]">tonight&apos;s dare</p>
-                    <p className="font-semibold lowercase text-[#4c2f2c]">draw your dream mini-date</p>
-                  </div>
-                  <span className="text-2xl">💗</span>
-                </div>
-                <div className="flex items-center justify-between px-4 py-3 rounded-2xl bg-gradient-to-r from-[#fff7ed] to-[#fef0ff]">
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-[#ad75ba]">streak</p>
-                    <p className="text-lg font-black text-[#653f3c]">27 days</p>
-                  </div>
-                  <p className="text-sm text-[#7c5e5a]">farm growth +12%</p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="relative flex items-center justify-center py-6"
+          >
+            <div className="absolute inset-x-6 bottom-0 top-0 rounded-[60px] bg-gradient-to-br from-[#ffe2f1] via-[#f7edff] to-[#eaf1ff] blur-3xl opacity-70" />
+            <div className="relative mx-auto w-full max-w-[420px] sm:max-w-[480px]">
+              <div className="absolute -inset-6 bg-gradient-to-br from-[#fbd9ec]/80 via-[#ffeef6]/70 to-[#f1ebff]/80 rounded-[62px] blur-2xl opacity-80" />
+              <div className="relative rounded-[58px] bg-[#0c0713] border-[10px] border-white shadow-[0_30px_80px_rgba(51,17,41,0.35)] p-4">
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3 rounded-full bg-white/30" />
+                <div className="absolute top-12 right-1/2 translate-x-32 w-2 h-12 rounded-full bg-white/20" />
+                <div className="absolute top-28 right-1/2 translate-x-32 w-2 h-14 rounded-full bg-white/20" />
+                <div className="rounded-[32px] overflow-hidden bg-gradient-to-b from-[#1d1428] to-[#120915] aspect-[9/19]">
+                  <video
+                    src="/videopreview.MOV"
+                    controls
+                    playsInline
+                    poster="/images/bg.png"
+                    className="w-full h-full object-cover"
+                  >
+                    your browser does not support the video tag.
+                  </video>
                 </div>
               </div>
-            </motion.div>
-          </div>
+              <div className="mt-5 rounded-3xl bg-white/85 border border-white/60 shadow-lg px-5 py-4 text-center">
+                <p className="text-xs uppercase tracking-[0.4em] text-[#ad75ba]">tap into live doodles</p>
+                <p className="text-sm text-[#4c2f2c] lowercase">
+                  realtime strokes, prompts, and notifications flowing on a real device.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </section>
 
         <section className="max-w-6xl mx-auto px-6 py-12">
@@ -275,36 +268,33 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7 }}
-            className="relative flex items-center justify-center py-8"
+            className="rounded-[32px] bg-white/95 border border-white/70 shadow-[0_25px_60px_rgba(0,0,0,0.12)] p-6 md:p-8"
           >
-            <div className="absolute inset-x-6 bottom-4 top-4 rounded-[52px] bg-gradient-to-br from-[#ffe2f1] via-[#f7edff] to-[#eaf1ff] blur-3xl opacity-70" />
-            <div className="relative mx-auto w-full max-w-[420px] sm:max-w-[460px]">
-              <div className="absolute -inset-5 bg-gradient-to-br from-[#fbd9ec]/80 via-[#ffeef6]/70 to-[#f1ebff]/80 rounded-[58px] blur-2xl opacity-80" />
-              <div className="relative rounded-[52px] bg-[#0c0713] border-[10px] border-white shadow-[0_35px_90px_rgba(51,17,41,0.35)] p-4">
-                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-3 rounded-full bg-white/30" />
-                <div className="absolute top-10 right-1/2 translate-x-24 w-2 h-10 rounded-full bg-white/20" />
-                <div className="absolute top-20 right-1/2 translate-x-24 w-2 h-14 rounded-full bg-white/20" />
-                <div className="rounded-[32px] overflow-hidden bg-gradient-to-b from-[#1d1428] to-[#120915] aspect-[9/19]">
-                  <video
-                    src="/videopreview.MOV"
-                    controls
-                    playsInline
-                    poster="/images/bg.png"
-                    className="w-full h-full object-cover"
-                  >
-                    your browser does not support the video tag.
-                  </video>
-                </div>
+            <div className="rounded-[28px] bg-gradient-to-br from-[#fff5f9] via-white to-[#f2f0ff] p-8 flex items-center justify-center">
+              <div className="relative w-full max-w-[260px] aspect-square">
+                <Image
+                  src="/images/2.png"
+                  alt="Cozy DoodleDuo board art"
+                  fill
+                  sizes="260px"
+                  className="object-contain drop-shadow-[0_20px_40px_rgba(99,64,59,0.35)]"
+                />
               </div>
-              <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-white/80 border border-white/60 shadow-lg px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.4em] text-[#ad75ba]">live board preview</p>
-                  <p className="text-sm text-[#4c2f2c] lowercase">
-                    capture doodles, pings, and streak boosts inside a dreamy glass phone.
-                  </p>
-                </div>
-                <span className="text-2xl">🎥</span>
-              </div>
+            </div>
+            <div className="mt-6 space-y-3">
+              <p className="text-sm uppercase tracking-[0.3em] text-[#ad75ba]">tiny rituals</p>
+              <p className="text-base text-[#5d4946] lowercase">
+                share a board, whisper dares, guide the farm with gentle reminders—it all lives inside one calm view.
+              </p>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {['soft prompts all day', 'widgets mirror your love', 'rewards grow the farm', 'voice hearts in a tap'].map(
+                (item) => (
+                  <div key={item} className="rounded-2xl border border-[#fbe1ef] bg-[#fff9fb] px-4 py-3 text-sm text-[#4c2f2c]">
+                    {item}
+                  </div>
+                ),
+              )}
             </div>
           </motion.div>
         </section>
@@ -399,47 +389,5 @@ export default function Home() {
         </footer>
       </div>
     </main>
-  )
-}
-
-function FloatingHeart({ delay, index }: { delay: number; index: number }) {
-  const colors = [
-    'rgb(248, 158, 186)',
-    'rgb(222, 125, 200)',
-    'rgb(194, 135, 219)',
-    'rgb(214, 168, 239)',
-    'rgb(239, 175, 208)',
-  ]
-
-  const startX = [20, 45, 65, 85, 35][index] || 50
-  const amplitude = [18, 22, 26, 18, 24][index] || 20
-
-  return (
-    <motion.div
-      className="absolute"
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: [0, 0.75, 0.75, 0],
-        y: ['100%', '-20%'],
-        x: [
-          `${startX}%`,
-          `${startX + amplitude / 2}%`,
-          `${startX}%`,
-          `${startX - amplitude / 2}%`,
-          `${startX}%`,
-        ],
-      }}
-      transition={{
-        duration: 8,
-        delay,
-        repeat: Infinity,
-        ease: 'linear',
-      }}
-      style={{ left: 0, bottom: 0 }}
-    >
-      <svg width="20" height="18" viewBox="0 0 20 18" fill={colors[index % colors.length]} className="opacity-75">
-        <path d="M10 17.5C10 17.5 1 12 1 5.5C1 3.5 2.5 2 4.5 2C6.5 2 8.5 3.5 10 5.5C11.5 3.5 13.5 2 15.5 2C17.5 2 19 3.5 19 5.5C19 12 10 17.5 10 17.5Z" />
-      </svg>
-    </motion.div>
   )
 }
