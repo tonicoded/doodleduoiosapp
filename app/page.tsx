@@ -135,7 +135,19 @@ export default function Home() {
                 <span aria-hidden>↗</span>
               </a>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3">
+              <div className="inline-flex flex-col items-start gap-2">
+                <div className="flex items-center gap-3">
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+                    <Image src="/images/2.png" alt="DoodleDuo Logo" fill sizes="80px" className="object-contain" priority />
+                  </div>
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.4em] text-[#ad75ba]">introducing</p>
+                    <p className="text-2xl font-black lowercase text-[#4c2f2c]">doodleduo</p>
+                  </div>
+                </div>
+                <p className="text-base lowercase text-[#5d4946]">two tiny hearts, one shared love board</p>
+              </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black lowercase leading-tight text-[#4c2f2c]">
                 a playful farm for two hearts and one live doodleboard
               </h1>
