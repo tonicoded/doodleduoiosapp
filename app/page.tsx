@@ -48,13 +48,13 @@ export default function Home() {
               <div className="absolute -inset-6 rounded-[32px] bg-gradient-to-br from-[#fdd7e8] to-[#d7cbff] blur-3xl opacity-60" />
               <div className="relative rounded-[32px] bg-[#10121a] p-6 shadow-2xl">
                 <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">preview</p>
-                <Image
-                  src="/images/2.png"
-                  alt="app preview"
-                  width={420}
-                  height={300}
-                  className="mx-auto mt-4 rounded-2xl object-contain"
-                  priority
+                <video
+                  src="/videopreview.MOV"
+                  className="mx-auto mt-4 w-full rounded-2xl border border-white/10 object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
                 />
                 <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-white/80">
                   {['keep animals fed', 'unlock cozy pets', 'send realtime doodles', 'reset together'].map((text) => (
