@@ -397,13 +397,17 @@ export default function Home() {
 
         <footer className="pb-10 text-center text-xs text-[#7c5e5a] px-6 lowercase space-y-2">
           <div>made with 💗 by doodleduo — keep sketching, keep growing.</div>
-          <div className="flex justify-center gap-4 text-[#ad75ba] font-semibold">
+          <div className="flex justify-center gap-3 text-[#ad75ba] font-semibold">
+            <Link href="/support" className="hover:underline">
+              support
+            </Link>
+            <span>•</span>
             <Link href="/privacy" className="hover:underline">
-              privacy policy
+              privacy
             </Link>
             <span>•</span>
             <Link href="/terms" className="hover:underline">
-              terms of service
+              terms
             </Link>
           </div>
         </footer>
