@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "doodleduo - live cozy doodles for couples",
-  description: "sketch love notes, leave tiny dares, toss love pings, and level up a gentle farm that mirrors your vibe. beta starts soon!",
+  description: "sketch love notes, leave tiny dares, toss love pings, and level up a gentle farm that mirrors your vibe. now available on the App Store!",
 };
 
 export default function RootLayout({

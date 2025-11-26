@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const TEST_FLIGHT_URL = 'https://testflight.apple.com/join/9H3dkvdb'
+const APP_STORE_URL = 'https://apps.apple.com/nl/app/doodleduo-cozy-couple-app/id6755592080'
 
 const featureHighlights = [
   {
@@ -86,14 +86,14 @@ const buddyAnimals = [
 
 const heroStats = [
   {
-    label: 'testflight status',
-    value: 'open beta',
-    detail: 'install + invite instantly',
+    label: 'availability',
+    value: 'now live',
+    detail: 'download on app store',
   },
   {
     label: 'platform',
     value: 'ios 26',
-    detail: 'iphone + ipad future builds',
+    detail: 'iphone + ipad',
   },
   {
     label: 'love channel',
@@ -125,14 +125,14 @@ export default function Home() {
         <section className="max-w-6xl mx-auto px-6 pt-20 pb-10 sm:pt-24 lg:pt-28 lg:pb-16 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
           <div className="space-y-6">
             <div className="inline-flex flex-wrap items-center gap-3 text-sm lowercase font-semibold text-[#ad75ba]">
-              <span className="px-4 py-1 rounded-full bg-white/80 shadow-sm border border-white/60">open beta</span>
+              <span className="px-4 py-1 rounded-full bg-white/80 shadow-sm border border-white/60">now available</span>
               <a
-                href={TEST_FLIGHT_URL}
+                href={APP_STORE_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-[#e35070] hover:underline"
               >
-                join on testflight
+                download on app store
                 <span aria-hidden>↗</span>
               </a>
             </div>
@@ -155,28 +155,28 @@ export default function Home() {
                 </div>
               </div>
               <p className="text-lg text-[#5d4946] lowercase max-w-xl">
-                scribble together in realtime, drop playful pings, and watch a cozy farm mirror your daily rituals. jump
-                into the iOS open beta and feel your love stay visible.
+                scribble together in realtime, drop playful pings, and watch a cozy farm mirror your daily rituals. download
+                now on the App Store and feel your love stay visible.
               </p>
             </div>
             <div className="flex flex-wrap gap-4 pt-2">
               <motion.a
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                href="#download"
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noreferrer"
                 className="px-6 py-3 rounded-full bg-gradient-to-r from-[#e35070] to-[#ad75ba] text-white font-semibold lowercase shadow-lg hover:shadow-xl"
               >
-                see how to join
+                download now
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                href={TEST_FLIGHT_URL}
-                target="_blank"
-                rel="noreferrer"
+                href="#features"
                 className="px-6 py-3 rounded-full bg-white/80 border border-white/60 text-[#e35070] font-semibold lowercase shadow-md hover:bg-white"
               >
-                download via testflight
+                see features
               </motion.a>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-6">
@@ -232,7 +232,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <section className="max-w-6xl mx-auto px-6 py-12">
+        <section id="features" className="max-w-6xl mx-auto px-6 py-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <p className="text-sm uppercase tracking-[0.3em] text-[#ad75ba]">made for modern couples</p>
             <h2 className="text-3xl sm:text-4xl font-black lowercase text-[#4c2f2c]">
@@ -373,20 +373,20 @@ export default function Home() {
               <p className="text-sm uppercase tracking-[0.4em] text-[#ad75ba]">download + share</p>
               <h2 className="text-3xl font-black lowercase text-[#4c2f2c]">get doodleduo on your iphone today</h2>
               <p className="text-base text-[#5d4946] lowercase max-w-2xl mx-auto">
-                install from TestFlight, invite your partner, and unlock the cozy farm in minutes. android + widget-only
-                builds are underway—follow us on socials for drops.
+                download from the App Store, invite your partner, and unlock the cozy farm in minutes. android builds are
+                underway—follow us on socials for updates.
               </p>
             </div>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <motion.a
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                href={TEST_FLIGHT_URL}
+                href={APP_STORE_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="rounded-3xl bg-gradient-to-r from-[#e35070] to-[#ad75ba] px-8 py-4 text-center text-white font-semibold lowercase shadow-lg"
               >
-                open testflight
+                download on app store
               </motion.a>
             </div>
             <p className="mt-6 text-center text-sm text-[#7c5e5a] lowercase">
